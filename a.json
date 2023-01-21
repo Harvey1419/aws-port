@@ -1,0 +1,33 @@
+[
+    {
+        "id":"123241",
+        "DO":"12345",
+        "empresa" :"AKA",
+        "reserva":"reserva.pdf",
+        "factura":"factura.pdf",
+        "CP": "cp.pdf",
+        "estado" : "Generación de SAE",
+        "Contenedores":[
+            {
+                "DO":"12345", 
+                "num_contenedor": "2124jasd",
+                "Estado":"En Bodega",
+                "inpección": {
+                    "Fecha":"02-12-2023",
+                    "entidad": "Dian"
+                }
+                
+            },
+            {
+                "num_contenedor": "210312jda",
+                "Estado":"En Transporte"
+                
+            }   
+        ],
+        "SAE":"SAE.pdf",
+        "BL":"BL.pdf",
+        "DEX":"Dex.pdf"
+    }
+
+]
+    
