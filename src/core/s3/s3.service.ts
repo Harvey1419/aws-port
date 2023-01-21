@@ -1,6 +1,6 @@
 import { S3Client, PutObjectCommand, PutObjectCommandOutput, DeleteObjectCommand, DeleteObjectCommandOutput , GetObjectCommand} from '@aws-sdk/client-s3'
 // import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
-import { AWS_S3_BUCKET_REGION, AWS_PUBLIC_KEY, AWS_PRIVATE_KEY, AWS_S3_BUCKET_NAME } from '../config/config'
+import { AWS_S3_BUCKET_REGION, AWS_PUBLIC_KEY, AWS_PRIVATE_KEY, AWS_S3_BUCKET_NAME } from '../../config/config'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { UploadedFile } from 'express-fileupload'
 
