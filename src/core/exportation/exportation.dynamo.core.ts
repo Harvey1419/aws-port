@@ -1,7 +1,7 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { PutCommand, PutCommandInput, PutCommandOutput, UpdateCommand, UpdateCommandOutput } from "@aws-sdk/lib-dynamodb";
 import { AWS_DYNAMO_REGION, AWS_DYNAMO_PUBLIC_KEY, AWS_DYNAMO_SECRET_KEY, AWS_DYNAMO_CONTAINER_TABLE, AWS_DYNAMO_GENERAL_PROCESS_TABLE } from "../../config/config";
-import { Container } from "../../../Models/container.model";
+import { Container } from "../../Models/container.model";
 
 const dynamodb = new DynamoDBClient({
     region: AWS_DYNAMO_REGION,

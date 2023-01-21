@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { createContainer, getContainer, deleteContainer } from "../../core/containers/containers.dynamo.core";
 import { createContainerService, getContainerService, deleteContainerService } from "../../Services/containers/containers.service";
 import { containerKeysValidator, containerValidations } from "../../utils/validators";
 
