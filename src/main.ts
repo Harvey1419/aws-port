@@ -6,6 +6,7 @@ import ContainersRouter from './Controller/containers/containers.dynamo.controll
 import ExportationRouter from './Controller/exportation/exportation.dynamo.controller'
 
 const app: Express = express()
+
 app.use(express.json())
 
 app.use(uploadedFile())
