@@ -1,20 +1,12 @@
 import { Router } from 'express'
-import { getSignedURL, uploadFile } from '../../core/s3/s3.service'
+import { getSignedURL, uploadFile } from '../../core/s3/s3.core'
 import { UploadedFile } from 'express-fileupload'
 import { createOrUpdateContainer } from '../../core/containers/containers.dynamo.core'
+import { uploadFileBasedOnDocumentNameService } from '../../Services/s3/s3.service'
 
 const routerS3 = Router()
 
-routerS3.post('/upload', async (req, res) => {
-  try {
-    const file = req.files?.file as UploadedFile
-    await uploadFile(file)
-    //await createContainerDb(file)
-    //return res.send(await getSignedURL(file.name))
-  } catch (error) {
-    return res.send(error)
-  }
-})
+routerS3.post('/upload/:method/:numero_do', uploadFileBasedOnDocumentNameService)
 
 
 export default routerS3

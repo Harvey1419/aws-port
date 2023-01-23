@@ -10,5 +10,4 @@ ExportationRouter.post('', createExportationService)
                  .get('/getByCompany/:empresa',getExportationBycompanyService)
                  .delete('/deleteContainer/:numero_do/:numero_contenedor',deleteContainerInExportationService)
 
-
 export default ExportationRouter
