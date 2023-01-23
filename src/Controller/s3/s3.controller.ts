@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { getSignedURL, uploadFile } from '../../core/s3/s3.service'
 import { UploadedFile } from 'express-fileupload'
-import { createContainer } from '../../core/containers/containers.dynamo.core'
+import { createOrUpdateContainer } from '../../core/containers/containers.dynamo.core'
 
 const routerS3 = Router()
 

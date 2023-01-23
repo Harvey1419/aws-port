@@ -1,5 +1,5 @@
 import {DeleteBackupCommandOutput, DynamoDBClient} from '@aws-sdk/client-dynamodb'
-import {PutCommand, ScanCommand, PutCommandInput, ScanCommandInput, ScanCommandOutput, PutCommandOutput, DeleteCommand, UpdateCommand} from "@aws-sdk/lib-dynamodb";
+import {PutCommand, ScanCommand, PutCommandInput, ScanCommandInput, ScanCommandOutput, PutCommandOutput, DeleteCommand, UpdateCommand, UpdateCommandInput} from "@aws-sdk/lib-dynamodb";
 import { AWS_DYNAMO_CONTAINER_TABLE, AWS_DYNAMO_GENERAL_PROCESS_TABLE, AWS_DYNAMO_PUBLIC_KEY, AWS_DYNAMO_REGION, AWS_DYNAMO_SECRET_KEY } from '../../config/config';
 import { Container } from '../../Models/container.model';
 //import { addNewContainerToExportation } from './exportation.dynamo.service';
@@ -12,7 +12,7 @@ const dynamodb = new DynamoDBClient({
     }
 })
 
-export const createContainer = async(container: Container): Promise<PutCommandOutput> => {
+export const createOrUpdateContainer = async(container: Container): Promise<PutCommandOutput> => {
     container.createdAt = new Date().toLocaleDateString()
     const itemParams: PutCommandInput = {
         TableName: AWS_DYNAMO_CONTAINER_TABLE,
@@ -23,7 +23,7 @@ export const createContainer = async(container: Container): Promise<PutCommandOu
     return await dynamodb.send(command)
 }
 
-export const getContainer = async(numero_do: string): Promise<ScanCommandOutput> => {
+export const getContainerByDo = async(numero_do: string): Promise<ScanCommandOutput> => {
     const itemParam: ScanCommandInput = {
         TableName: AWS_DYNAMO_CONTAINER_TABLE,
         FilterExpression: 'numero_do = :numero_do',
@@ -46,3 +46,31 @@ export const deleteContainer = async(numero_do: string,numero_contenedor:string)
     return await dynamodb.send(itemParams)
 }
 
+export const updateContainerByIndex = async (numero_do:string, index:Number,container:Container) => {
+    const itemParams: UpdateCommandInput = {
+        TableName: AWS_DYNAMO_GENERAL_PROCESS_TABLE,
+        Key: {
+            "numero_do": numero_do
+        },
+        UpdateExpression: `SET containers[${index}] = :containers`,
+        ExpressionAttributeValues: {
+            ":containers" : container
+        }
+    }
+    const command = new UpdateCommand(itemParams)
+    return await dynamodb.send(command)
+}
+
+export const deleteContainerByIndex = async (numero_do:string, index: Number) => {
+    console.log('?');
+    
+    const itemParams:UpdateCommandInput = {
+        TableName: AWS_DYNAMO_GENERAL_PROCESS_TABLE,
+        Key: {
+            "numero_do":numero_do
+        },
+        UpdateExpression: `REMOVE containers[${index}]`
+    }
+    const command = new UpdateCommand(itemParams)
+    return await dynamodb.send(command)
+}
