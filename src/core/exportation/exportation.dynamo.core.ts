@@ -35,7 +35,7 @@ export const getExportationBycompany = async (empresa: string): Promise<ScanComm
     return await dynamodb.send(command)
 }
 
-export const getIndexContainer = async (numero_do: string, numero_contenedor: string) => {
+export const getExportationByNumeroDo = async (numero_do: string): Promise<ScanCommandOutput> => {
     const itemParam: ScanCommandInput = {
         TableName: AWS_DYNAMO_GENERAL_PROCESS_TABLE,
         FilterExpression: 'numero_do = :numero_do',
@@ -44,7 +44,11 @@ export const getIndexContainer = async (numero_do: string, numero_contenedor: st
         }
     }
     const command = new ScanCommand(itemParam)
-    const response = await dynamodb.send(command)
+    return await dynamodb.send(command)
+}
+
+export const getIndexContainer = async (numero_do: string, numero_contenedor: string) => {
+    const response = await getExportationByNumeroDo(numero_do)
     let items = response.Items;
     if (items != undefined) {
         const containers: Array<Container> = items[0]["containers"]
