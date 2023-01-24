@@ -1,7 +1,8 @@
 import {DeleteBackupCommandOutput, DynamoDBClient} from '@aws-sdk/client-dynamodb'
-import {PutCommand, ScanCommand, PutCommandInput, ScanCommandInput, ScanCommandOutput, PutCommandOutput, DeleteCommand, UpdateCommand, UpdateCommandInput} from "@aws-sdk/lib-dynamodb";
+import {PutCommand, ScanCommand, PutCommandInput, ScanCommandInput, ScanCommandOutput, PutCommandOutput, DeleteCommand, UpdateCommand, UpdateCommandInput, UpdateCommandOutput} from "@aws-sdk/lib-dynamodb";
 import { AWS_DYNAMO_CONTAINER_TABLE, AWS_DYNAMO_GENERAL_PROCESS_TABLE, AWS_DYNAMO_PUBLIC_KEY, AWS_DYNAMO_REGION, AWS_DYNAMO_SECRET_KEY } from '../../config/config';
 import { Container } from '../../Models/container.model';
+import { Status } from '../../Models/status.model';
 //import { addNewContainerToExportation } from './exportation.dynamo.service';
 
 const dynamodb = new DynamoDBClient({
@@ -74,3 +75,21 @@ export const deleteContainerByIndex = async (numero_do:string, index: Number) =>
     const command = new UpdateCommand(itemParams)
     return await dynamodb.send(command)
 }
+export const addStatusToContainer = async(numero_do: string, numero_contenedor:string, status: Status): Promise<UpdateCommandOutput> => {
+
+    const itemParams = new UpdateCommand({
+        TableName: AWS_DYNAMO_CONTAINER_TABLE,
+        Key: {
+            numero_do: numero_do,
+            numero_contenedor: numero_contenedor
+        },
+        UpdateExpression: "SET historico = list_append(historico, :attrValues)",
+        ConditionExpression: "NOT contains (historico, :statusObject)",
+        ExpressionAttributeValues: {
+            ":attrValues": [status],
+            ":statusObject": status
+        }
+    })
+    return await dynamodb.send(itemParams);
+} 
+
