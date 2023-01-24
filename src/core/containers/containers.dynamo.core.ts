@@ -13,7 +13,7 @@ const dynamodb = new DynamoDBClient({
 })
 
 export const createOrUpdateContainer = async(container: Container): Promise<PutCommandOutput> => {
-    container.createdAt = new Date().toLocaleDateString()
+    container.createdAt = new Date().toDateString()
     const itemParams: PutCommandInput = {
         TableName: AWS_DYNAMO_CONTAINER_TABLE,
         Item: container
@@ -74,3 +74,4 @@ export const deleteContainerByIndex = async (numero_do:string, index: Number) =>
     const command = new UpdateCommand(itemParams)
     return await dynamodb.send(command)
 }
+
