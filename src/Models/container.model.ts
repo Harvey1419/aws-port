@@ -1,3 +1,5 @@
+import { Status } from "./status.model"
+
 export type Volumen = 20 | 40
 
 export interface Container {
@@ -12,4 +14,5 @@ export interface Container {
   ETA: string
   Material: string
   createdAt: string
+  historico: Status[]
 }
