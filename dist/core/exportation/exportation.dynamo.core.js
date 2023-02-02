@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateExportation = exports.changeDocumentNameBasedOnUploadedDocument = exports.addNewContainerToExportation = exports.getIndexContainer = exports.getExportationByNumeroDo = exports.getExportationBycompany = exports.createExportation = void 0;
+exports.updateExportation = exports.changeDocumentNameBasedOnUploadedDocument = exports.getExportationByNumeroDo = exports.getExportationBycompany = exports.createExportation = void 0;
 const client_dynamodb_1 = require("@aws-sdk/client-dynamodb");
 const lib_dynamodb_1 = require("@aws-sdk/lib-dynamodb");
 const config_1 = require("../../config/config");
@@ -21,7 +21,6 @@ const dynamodb = new client_dynamodb_1.DynamoDBClient({
     }
 });
 const createExportation = (exportation) => __awaiter(void 0, void 0, void 0, function* () {
-    exportation.containers = [];
     exportation.createdAt = new Date().toLocaleDateString();
     const itemParams = {
         TableName: config_1.AWS_DYNAMO_GENERAL_PROCESS_TABLE,
@@ -55,33 +54,6 @@ const getExportationByNumeroDo = (numero_do) => __awaiter(void 0, void 0, void 0
     return yield dynamodb.send(command);
 });
 exports.getExportationByNumeroDo = getExportationByNumeroDo;
-const getIndexContainer = (numero_do, numero_contenedor) => __awaiter(void 0, void 0, void 0, function* () {
-    const response = yield (0, exports.getExportationByNumeroDo)(numero_do);
-    let items = response.Items;
-    if (items != undefined) {
-        const containers = items[0]["containers"];
-        const indexToUpdate = containers.map(x => x.numero_do && x.numero_contenedor).indexOf(numero_do && numero_contenedor);
-        return indexToUpdate;
-    }
-});
-exports.getIndexContainer = getIndexContainer;
-const addNewContainerToExportation = (numero_do, container) => __awaiter(void 0, void 0, void 0, function* () {
-    const itemParams = {
-        TableName: config_1.AWS_DYNAMO_GENERAL_PROCESS_TABLE,
-        Key: {
-            numero_do: numero_do
-        },
-        UpdateExpression: "SET containers = list_append(containers, :attrValues)",
-        ConditionExpression: "NOT contains (containers, :containersObject)",
-        ExpressionAttributeValues: {
-            ":attrValues": [container],
-            ":containersObject": container
-        },
-    };
-    const command = new lib_dynamodb_1.UpdateCommand(itemParams);
-    return yield dynamodb.send(command);
-});
-exports.addNewContainerToExportation = addNewContainerToExportation;
 const changeDocumentNameBasedOnUploadedDocument = (numero_do, document_key, document_name) => __awaiter(void 0, void 0, void 0, function* () {
     const itemParams = {
         TableName: config_1.AWS_DYNAMO_GENERAL_PROCESS_TABLE,

@@ -1,7 +1,7 @@
 import express from 'express'
 import { UploadedFile } from 'express-fileupload'
 import { changeDocumentNameBasedOnUploadedDocument } from '../../core/exportation/exportation.dynamo.core'
-import { uploadFile } from '../../core/s3/s3.core'
+import { getSignedURL, uploadFile } from '../../core/s3/s3.core'
 
 export const uploadFileBasedOnDocumentNameService = async (req: express.Request, res: express.Response) => {
     try {
@@ -17,5 +17,14 @@ export const uploadFileBasedOnDocumentNameService = async (req: express.Request,
     } catch (error) {
         res.json(error)
     }
+}
 
+export const dowloadFile = async(req: express.Request, res: express.Response) => {
+    try {
+        const fileName = req.params.filename
+        const url = await getSignedURL(fileName)
+        res.json({"URL": url})
+    } catch (error) {
+        res.json(error)
+    }
 }

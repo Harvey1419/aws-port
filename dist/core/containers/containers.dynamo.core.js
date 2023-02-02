@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addStatusToContainer = exports.deleteContainerByIndex = exports.updateContainerByIndex = exports.deleteContainer = exports.getContainerByDo = exports.createOrUpdateContainer = void 0;
+exports.addStatusToContainer = exports.updateContainer = exports.deleteContainer = exports.getContainerByDo = exports.createOrUpdateContainer = void 0;
 const client_dynamodb_1 = require("@aws-sdk/client-dynamodb");
 const lib_dynamodb_1 = require("@aws-sdk/lib-dynamodb");
 const config_1 = require("../../config/config");
@@ -21,8 +21,9 @@ const dynamodb = new client_dynamodb_1.DynamoDBClient({
         secretAccessKey: config_1.AWS_DYNAMO_SECRET_KEY
     }
 });
-const createOrUpdateContainer = (container) => __awaiter(void 0, void 0, void 0, function* () {
+const createOrUpdateContainer = (numero_do, container) => __awaiter(void 0, void 0, void 0, function* () {
     container.createdAt = new Date().toDateString();
+    container.numero_do = numero_do;
     const itemParams = {
         TableName: config_1.AWS_DYNAMO_CONTAINER_TABLE,
         Item: container
@@ -54,34 +55,20 @@ const deleteContainer = (numero_do, numero_contenedor) => __awaiter(void 0, void
     return yield dynamodb.send(itemParams);
 });
 exports.deleteContainer = deleteContainer;
-const updateContainerByIndex = (numero_do, index, container) => __awaiter(void 0, void 0, void 0, function* () {
-    const itemParams = {
-        TableName: config_1.AWS_DYNAMO_GENERAL_PROCESS_TABLE,
+const updateContainer = (numero_do, numero_contenedor, container) => __awaiter(void 0, void 0, void 0, function* () {
+    const { updateExpression, expressionAttributeValues } = getExpressions(container);
+    const itemParams = new lib_dynamodb_1.UpdateCommand({
+        TableName: config_1.AWS_DYNAMO_CONTAINER_TABLE,
         Key: {
-            "numero_do": numero_do
+            numero_do: numero_do,
+            numero_contenedor: numero_contenedor
         },
-        UpdateExpression: `SET containers[${index}] = :containers`,
-        ExpressionAttributeValues: {
-            ":containers": container
-        }
-    };
-    const command = new lib_dynamodb_1.UpdateCommand(itemParams);
-    return yield dynamodb.send(command);
+        UpdateExpression: `SET ${updateExpression.join(', ')}`,
+        ExpressionAttributeValues: expressionAttributeValues
+    });
+    return yield dynamodb.send(itemParams);
 });
-exports.updateContainerByIndex = updateContainerByIndex;
-const deleteContainerByIndex = (numero_do, index) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('?');
-    const itemParams = {
-        TableName: config_1.AWS_DYNAMO_GENERAL_PROCESS_TABLE,
-        Key: {
-            "numero_do": numero_do
-        },
-        UpdateExpression: `REMOVE containers[${index}]`
-    };
-    const command = new lib_dynamodb_1.UpdateCommand(itemParams);
-    return yield dynamodb.send(command);
-});
-exports.deleteContainerByIndex = deleteContainerByIndex;
+exports.updateContainer = updateContainer;
 const addStatusToContainer = (numero_do, numero_contenedor, status) => __awaiter(void 0, void 0, void 0, function* () {
     const itemParams = new lib_dynamodb_1.UpdateCommand({
         TableName: config_1.AWS_DYNAMO_CONTAINER_TABLE,
@@ -99,3 +86,12 @@ const addStatusToContainer = (numero_do, numero_contenedor, status) => __awaiter
     return yield dynamodb.send(itemParams);
 });
 exports.addStatusToContainer = addStatusToContainer;
+const getExpressions = (container) => {
+    const updateExpression = [];
+    const expressionAttributeValues = {};
+    Object.keys(container).map(keys => {
+        updateExpression.push(`${keys} = :${keys}`);
+        expressionAttributeValues[`:${keys}`] = container[keys];
+    });
+    return { updateExpression, expressionAttributeValues };
+};

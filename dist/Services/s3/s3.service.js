@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadFileBasedOnDocumentNameService = void 0;
+exports.dowloadFile = exports.uploadFileBasedOnDocumentNameService = void 0;
 const exportation_dynamo_core_1 = require("../../core/exportation/exportation.dynamo.core");
 const s3_core_1 = require("../../core/s3/s3.core");
 const uploadFileBasedOnDocumentNameService = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -31,3 +31,14 @@ const uploadFileBasedOnDocumentNameService = (req, res) => __awaiter(void 0, voi
     }
 });
 exports.uploadFileBasedOnDocumentNameService = uploadFileBasedOnDocumentNameService;
+const dowloadFile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const fileName = req.params.filename;
+        const url = yield (0, s3_core_1.getSignedURL)(fileName);
+        res.json({ "URL": url });
+    }
+    catch (error) {
+        res.json(error);
+    }
+});
+exports.dowloadFile = dowloadFile;

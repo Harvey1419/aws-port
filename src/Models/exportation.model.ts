@@ -1,4 +1,3 @@
-import { Container } from "./container.model";
 
 export interface Exportation {
     numero_do: string
@@ -7,7 +6,6 @@ export interface Exportation {
     reserva: string
     CP: string
     estado: string
-    containers? : Container[],
     saex?: string
     BL?: string
     dex?: string

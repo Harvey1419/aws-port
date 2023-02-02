@@ -9,11 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteContainerService = exports.newContainerStatusService = exports.getContainerService = exports.createContainerService = void 0;
+exports.deleteContainerService = exports.updateContainerService = exports.newContainerStatusService = exports.getContainerService = exports.createContainerService = void 0;
 const containers_dynamo_core_1 = require("../../core/containers/containers.dynamo.core");
 const createContainerService = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, containers_dynamo_core_1.createOrUpdateContainer)(req.body);
+        const numero_do = req.params.numero_do;
+        if (numero_do != undefined)
+            yield (0, containers_dynamo_core_1.createOrUpdateContainer)(numero_do, req.body);
         res.json({ "Mensaje": "Se Creo un Contenedor de manera exitosa" });
     }
     catch (error) {
@@ -41,6 +43,16 @@ const newContainerStatusService = (req, res) => __awaiter(void 0, void 0, void 0
     }
 });
 exports.newContainerStatusService = newContainerStatusService;
+const updateContainerService = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield (0, containers_dynamo_core_1.updateContainer)(req.params.numero_do, req.params.numero_contenedor, req.body);
+        res.json({ "Mensaje": "Se Actualizó un Contenedor de manera exitosa" });
+    }
+    catch (error) {
+        res.json(error);
+    }
+});
+exports.updateContainerService = updateContainerService;
 const deleteContainerService = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const deleteConta = yield (0, containers_dynamo_core_1.deleteContainer)(req.params.numero_do, req.params.numero_contenedor);

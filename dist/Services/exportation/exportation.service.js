@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendEmailBasedOnDocumentKey = exports.getExportationBycompanyService = exports.createExportationService = void 0;
+exports.sendEmailBasedOnDocumentKey = exports.getExportationByNumeroDoService = exports.getExportationBycompanyService = exports.createExportationService = void 0;
 const sendEmails_core_1 = require("../../core/exportation/emails/sendEmails.core");
 const exportation_dynamo_core_1 = require("../../core/exportation/exportation.dynamo.core");
 const s3_core_1 = require("../../core/s3/s3.core");
@@ -33,6 +33,16 @@ const getExportationBycompanyService = (req, res) => __awaiter(void 0, void 0, v
     }
 });
 exports.getExportationBycompanyService = getExportationBycompanyService;
+const getExportationByNumeroDoService = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const exportations = yield (0, exportation_dynamo_core_1.getExportationByNumeroDo)(req.params.numero_do);
+        res.json(exportations.Items);
+    }
+    catch (error) {
+        res.json(error);
+    }
+});
+exports.getExportationByNumeroDoService = getExportationByNumeroDoService;
 const sendEmailBasedOnDocumentKey = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const exportation = yield (0, exportation_dynamo_core_1.getExportationByNumeroDo)(req.params.numero_do);
