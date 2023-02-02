@@ -21,6 +21,15 @@ export const getExportationBycompanyService = async (req: express.Request, res: 
         res.json(error)
     }
 }
+export const getExportationByNumeroDoService = async (req: express.Request, res: express.Response) => {
+    try {
+        const exportations = await getExportationByNumeroDo(req.params.numero_do)
+        res.json(exportations.Items)
+    } catch (error) {
+        res.json(error)
+    }
+}
+
 
 export const sendEmailBasedOnDocumentKey = async (req: express.Request, res: express.Response) => {
     try {

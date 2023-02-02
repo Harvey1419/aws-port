@@ -13,7 +13,6 @@ const dynamodb = new DynamoDBClient({
 })
 
 export const createExportation = async (exportation: Exportation): Promise<PutCommandOutput> => {
-    exportation.containers = []
     exportation.createdAt = new Date().toLocaleDateString()
     const itemParams: PutCommandInput = {
         TableName: AWS_DYNAMO_GENERAL_PROCESS_TABLE,
@@ -47,33 +46,6 @@ export const getExportationByNumeroDo = async (numero_do: string): Promise<ScanC
     return await dynamodb.send(command)
 }
 
-export const getIndexContainer = async (numero_do: string, numero_contenedor: string) => {
-    const response = await getExportationByNumeroDo(numero_do)
-    let items = response.Items;
-    if (items != undefined) {
-        const containers: Array<Container> = items[0]["containers"]
-        const indexToUpdate = containers.map(x => x.numero_do && x.numero_contenedor).indexOf(numero_do && numero_contenedor)
-        return indexToUpdate
-    }
-
-}
-
-export const addNewContainerToExportation = async (numero_do: string, container: Container): Promise<UpdateCommandOutput> => {
-    const itemParams = {
-        TableName: AWS_DYNAMO_GENERAL_PROCESS_TABLE,
-        Key: {
-            numero_do: numero_do
-        },
-        UpdateExpression: "SET containers = list_append(containers, :attrValues)",
-        ConditionExpression: "NOT contains (containers, :containersObject)",
-        ExpressionAttributeValues: {
-            ":attrValues": [container],
-            ":containersObject": container
-        },
-    }
-    const command = new UpdateCommand(itemParams)
-    return await dynamodb.send(command)
-}
 
 export const changeDocumentNameBasedOnUploadedDocument = async (numero_do: string, document_key: string, document_name: string) => {
     const itemParams = {
