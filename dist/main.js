@@ -9,8 +9,15 @@ const config_1 = require("./config/config");
 const s3_controller_1 = __importDefault(require("./Controller/s3/s3.controller"));
 const containers_dynamo_controller_1 = __importDefault(require("./Controller/containers/containers.dynamo.controller"));
 const exportation_dynamo_controller_1 = __importDefault(require("./Controller/exportation/exportation.dynamo.controller"));
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+app.use((0, cors_1.default)({
+    "origin": "*",
+    "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+    "preflightContinue": false,
+    "optionsSuccessStatus": 204
+}));
 app.use((0, express_fileupload_1.default)());
 app.use('/file', s3_controller_1.default);
 app.use('/container', containers_dynamo_controller_1.default);

@@ -23,13 +23,11 @@ const containerValidations = (containerValidations) => {
 };
 exports.containerValidations = containerValidations;
 exports.containerKeysValidator = [
-    (0, express_validator_1.body)('numero_do').isString().notEmpty().withMessage('No puede ser vacio'),
     (0, express_validator_1.body)('numero_contenedor').isString(),
     (0, express_validator_1.body)('volumen').isInt(),
     (0, express_validator_1.body)('tara').isInt(),
     (0, express_validator_1.body)('naviera').isString(),
-    (0, express_validator_1.body)('Sellos').isString(),
-    (0, express_validator_1.body)('Destino').isString(),
-    (0, express_validator_1.body)('ETA').isString(),
-    (0, express_validator_1.body)('Material').isString()
+    (0, express_validator_1.body)('sellos').isString(),
+    (0, express_validator_1.body)('destino').isString(),
+    (0, express_validator_1.body)('material').isString()
 ];

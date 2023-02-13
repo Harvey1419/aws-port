@@ -4,8 +4,8 @@ import { createExportationService, getExportationBycompanyService, getExportatio
 const ExportationRouter = Router()
 
 ExportationRouter.post('', createExportationService)
-                 .get('/getByCompany/:empresa',getExportationBycompanyService)
+                 .get('/company/:empresa',getExportationBycompanyService)
                  .get('/sendMessage/:numero_do/:method', sendEmailBasedOnDocumentKey)
-                 .get(':numero_do',getExportationByNumeroDoService)
+                 .get('/:numero_do',getExportationByNumeroDoService)
 
 export default ExportationRouter

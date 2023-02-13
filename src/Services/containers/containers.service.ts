@@ -1,11 +1,11 @@
 import express from 'express'
-import { addStatusToContainer, createOrUpdateContainer, deleteContainer, getContainerByDo, updateContainer } from '../../core/containers/containers.dynamo.core'
+import { addStatusToContainer, createContainer, deleteContainer, getContainerByDo, updateContainer } from '../../core/containers/containers.dynamo.core'
 
 
 export const createContainerService = async (req: express.Request, res: express.Response) => {
     try {
         const numero_do = req.params.numero_do
-        if(numero_do != undefined) await createOrUpdateContainer(numero_do,req.body)
+        if(numero_do != undefined) await createContainer(numero_do,req.body)
         res.json({ "Mensaje": "Se Creo un Contenedor de manera exitosa" })
     } catch (error) {
         res.json(error)

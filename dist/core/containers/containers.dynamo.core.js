@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addStatusToContainer = exports.updateContainer = exports.deleteContainer = exports.getContainerByDo = exports.createOrUpdateContainer = void 0;
+exports.addStatusToContainer = exports.updateContainer = exports.deleteContainer = exports.getContainerByDo = exports.createContainer = void 0;
 const client_dynamodb_1 = require("@aws-sdk/client-dynamodb");
 const lib_dynamodb_1 = require("@aws-sdk/lib-dynamodb");
 const config_1 = require("../../config/config");
@@ -21,9 +21,16 @@ const dynamodb = new client_dynamodb_1.DynamoDBClient({
         secretAccessKey: config_1.AWS_DYNAMO_SECRET_KEY
     }
 });
-const createOrUpdateContainer = (numero_do, container) => __awaiter(void 0, void 0, void 0, function* () {
+const createContainer = (numero_do, container) => __awaiter(void 0, void 0, void 0, function* () {
     container.createdAt = new Date().toDateString();
     container.numero_do = numero_do;
+    container.historico = [
+        {
+            fecha: new Date().toDateString(),
+            observaciones: 'Contenedor creado',
+            status: 'Creado'
+        }
+    ];
     const itemParams = {
         TableName: config_1.AWS_DYNAMO_CONTAINER_TABLE,
         Item: container
@@ -31,7 +38,7 @@ const createOrUpdateContainer = (numero_do, container) => __awaiter(void 0, void
     const command = new lib_dynamodb_1.PutCommand(itemParams);
     return yield dynamodb.send(command);
 });
-exports.createOrUpdateContainer = createOrUpdateContainer;
+exports.createContainer = createContainer;
 const getContainerByDo = (numero_do) => __awaiter(void 0, void 0, void 0, function* () {
     const itemParam = {
         TableName: config_1.AWS_DYNAMO_CONTAINER_TABLE,

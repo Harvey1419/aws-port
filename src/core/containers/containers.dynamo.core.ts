@@ -13,9 +13,16 @@ const dynamodb = new DynamoDBClient({
     }
 })
 
-export const createOrUpdateContainer = async (numero_do: string, container: Container): Promise<PutCommandOutput> => {
+export const createContainer = async (numero_do: string, container: Container): Promise<PutCommandOutput> => {
     container.createdAt = new Date().toDateString()
     container.numero_do = numero_do
+    container.historico = [
+        {
+            fecha: new Date().toDateString(),
+            observaciones: 'Contenedor creado',
+            status: 'Creado'
+        }
+    ]
     const itemParams: PutCommandInput = {
         TableName: AWS_DYNAMO_CONTAINER_TABLE,
         Item: container
