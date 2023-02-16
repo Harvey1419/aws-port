@@ -9,10 +9,10 @@ export interface Container {
   volumen: Volumen
   tara: number
   naviera: string
-  Sellos: string
-  Destino: string
+  sellos: string
+  destino: string
   ETA: string
-  Material: string
+  material: string
   createdAt: string
   historico: Status[]
 }

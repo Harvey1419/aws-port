@@ -15,13 +15,11 @@ export const containerValidations = (containerValidations: ValidationChain[]) =>
 }
 
 export const containerKeysValidator = [
-    body('numero_do').isString().notEmpty().withMessage('No puede ser vacio'),
     body('numero_contenedor').isString(),
     body('volumen').isInt(),
     body('tara').isInt(),
     body('naviera').isString(),
-    body('Sellos').isString(),
-    body('Destino').isString(),
-    body('ETA').isString(),
-    body('Material').isString()
+    body('sellos').isString(),
+    body('destino').isString(),
+    body('material').isString()
 ]

@@ -15,7 +15,7 @@ const createContainerService = (req, res) => __awaiter(void 0, void 0, void 0, f
     try {
         const numero_do = req.params.numero_do;
         if (numero_do != undefined)
-            yield (0, containers_dynamo_core_1.createOrUpdateContainer)(numero_do, req.body);
+            yield (0, containers_dynamo_core_1.createContainer)(numero_do, req.body);
         res.json({ "Mensaje": "Se Creo un Contenedor de manera exitosa" });
     }
     catch (error) {

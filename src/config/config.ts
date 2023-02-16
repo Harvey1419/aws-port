@@ -13,3 +13,6 @@ export const AWS_DYNAMO_PUBLIC_KEY = process.env.AWS_DYNAMO_PUBLIC_KEY as string
 export const AWS_DYNAMO_SECRET_KEY = process.env.AWS_DYNAMO_SECRET_KEY as string
 export const AWS_DYNAMO_CONTAINER_TABLE = process.env.AWS_DYNAMO_CONTAINER_TABLE as string
 export const AWS_DYNAMO_GENERAL_PROCESS_TABLE = process.env.AWS_DYNAMO_GENERAL_PROCESS_TABLE as string
+export const AWS_DYNAMO_USERS_TABLE = process.env.AWS_DYNAMO_USERS_TABLE as string
+
+export const TOKEN_SECRET = process.env.TOKEN_SECRET as string
