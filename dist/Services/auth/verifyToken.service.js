@@ -26,7 +26,10 @@ const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         return res.status(400).json({ "Mensaje": "Acceso denegado" });
     try {
         const verify = jsonwebtoken_1.default.verify(token, config_1.TOKEN_SECRET);
-        next();
+        if (verify) {
+            next();
+            console.log('A');
+        }
     }
     catch (error) {
         res.status(500).json({

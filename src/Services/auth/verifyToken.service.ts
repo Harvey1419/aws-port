@@ -1,6 +1,8 @@
 import express from 'express'
 import  jwt  from 'jsonwebtoken'
 import { TOKEN_SECRET } from '../../config/config';
+
+
 export const verifyToken = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (!req.headers.token) {
         return res.status(401).json({
@@ -12,7 +14,10 @@ export const verifyToken = async (req: express.Request, res: express.Response, n
 
     try {
         const verify = jwt.verify(token, TOKEN_SECRET)
-        next()
+        if(verify){
+            next()
+            console.log('A');
+        }
     } catch (error) {
         res.status(500).json({
             "Mensaje": "Token Invalido"

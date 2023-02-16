@@ -20,7 +20,7 @@ const config_1 = require("../../config/config");
 const createUserService = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
-        const { usuario, password } = req.body;
+        const { usuario, password, role, empresa } = req.body;
         const user = yield (0, users_core_1.getUserByUsername)(usuario);
         if ((_a = user.Items) === null || _a === void 0 ? void 0 : _a.length) {
             res.status(400).json({ "Mensaje": "Ya existe ese usuario" });
@@ -29,7 +29,9 @@ const createUserService = (req, res) => __awaiter(void 0, void 0, void 0, functi
         const newPassword = bcrypt_1.default.hashSync(password, 10);
         const userToCreate = {
             usuario: usuario,
-            password: newPassword
+            password: newPassword,
+            role: role,
+            empresa: empresa
         };
         const createNewUser = yield (0, users_core_1.createUser)(userToCreate);
         if (createNewUser.$metadata.httpStatusCode == 200) {
@@ -56,10 +58,12 @@ const loginUserService = (req, res) => __awaiter(void 0, void 0, void 0, functio
     if (!validPassword) {
         return res.status(400).json({ "Mensaje": "Contraseña Incorrecta" });
     }
-    const token = jsonwebtoken_1.default.sign({ user: user.Items[0] }, config_1.TOKEN_SECRET);
+    const token = jsonwebtoken_1.default.sign({ user: user.Items[0] }, config_1.TOKEN_SECRET, { expiresIn: '6h' });
     res.header("token").json({
         "usuario": usuario,
-        "token": token
+        "token": token,
+        "role": user.Items[0].role,
+        "empresa": user.Items[0].empresa
     });
 });
 exports.loginUserService = loginUserService;

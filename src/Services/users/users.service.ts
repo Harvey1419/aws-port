@@ -7,7 +7,7 @@ import { TOKEN_SECRET } from '../../config/config'
 
 export const createUserService = async (req: express.Request, res: express.Response) => {
     try {
-        const { usuario, password } = req.body
+        const { usuario, password, role, empresa } = req.body
         
         const user = await getUserByUsername(usuario)
         
@@ -18,8 +18,10 @@ export const createUserService = async (req: express.Request, res: express.Respo
         const newPassword = Bcrypt.hashSync(password, 10)
         const userToCreate: User = {
             usuario: usuario,
-            password: newPassword
-            }
+            password: newPassword,
+            role: role,
+            empresa: empresa
+        }
         const createNewUser = await createUser(userToCreate) 
         
         if(createNewUser.$metadata.httpStatusCode == 200){
@@ -46,11 +48,13 @@ export const loginUserService = async (req: express.Request, res: express.Respon
     if(!validPassword){
         return res.status(400).json({"Mensaje": "Contraseña Incorrecta"})
     }
-
+    
     const token = jwt.sign({user: user.Items[0]}, TOKEN_SECRET,{expiresIn: '6h'})
     res.header("token").json({
         "usuario": usuario,
-        "token": token
+        "token": token,
+        "role": user.Items[0].role,
+        "empresa" : user.Items[0].empresa
     })
 
 
