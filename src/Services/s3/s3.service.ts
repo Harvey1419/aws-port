@@ -7,7 +7,7 @@ export const uploadFileBasedOnDocumentNameService = async (req: express.Request,
     try {
         const file = req.files?.file as UploadedFile
         const method = req.params.method
-        if (method === 'reserva' || method === 'factura' || method === 'CP' || method === 'BL' || method === 'DEX' || method === 'SAE') {
+        if (method === 'booking' || method === 'factura' || method === 'CP' || method === 'BL' || method === 'DEX' || method === 'SAE') {
             await uploadFile(file)
             await changeDocumentNameBasedOnUploadedDocument(req.params.numero_do, method, file.name)
             res.json({ 'Mensaje': `Archivo subido en la exportancion con numero do: ${req.params.numero_do}` })

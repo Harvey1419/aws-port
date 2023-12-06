@@ -16,3 +16,6 @@ export const AWS_DYNAMO_GENERAL_PROCESS_TABLE = process.env.AWS_DYNAMO_GENERAL_P
 export const AWS_DYNAMO_USERS_TABLE = process.env.AWS_DYNAMO_USERS_TABLE as string
 
 export const TOKEN_SECRET = process.env.TOKEN_SECRET as string
+
+export const KEY_TRELLO = process.env.KEY_TRELLO as string
+export const TOKEN_TRELLO = process.env.TOKEN_TRELLO as string

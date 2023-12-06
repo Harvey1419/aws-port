@@ -6,6 +6,8 @@ import ContainersRouter from './Controller/containers/containers.dynamo.controll
 import ExportationRouter from './Controller/exportation/exportation.dynamo.controller'
 import cors from 'cors'
 import userRouter from './Controller/users/user.controller'
+import axios from 'axios'
+import trelloRouter from './Controller/trello/trello.controller'
  
 const app: Express = express()
 
@@ -20,13 +22,16 @@ app.use(cors({
 
 app.use(uploadedFile())
 
-app.use('/file', routerS3)
+app.use('/api/file', routerS3)
 
-app.use('/container', ContainersRouter)
+app.use('/api/container', ContainersRouter)
 
-app.use('/exportation', ExportationRouter)
+app.use('/api/exportation', ExportationRouter)
 
-app.use('/usuarios', userRouter)
+app.use('/api/usuarios', userRouter)
+
+app.use('/api/trello', trelloRouter)
+
 
 app.listen(PORT, () => {
   console.log(`Escuchando en el puerto ${PORT}`)
