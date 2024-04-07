@@ -56,7 +56,7 @@ export const deleteContainer = async (numero_do: string, numero_contenedor: stri
 }
 
 export const updateContainer = async (numero_do: string, numero_contenedor: string, container: { [keys: string]: any }): Promise<UpdateCommandOutput> => {
-    const {updateExpression,expressionAttributeValues} = getExpressions(container);
+    const { updateExpression, expressionAttributeValues } = getExpressions(container);
     const itemParams = new UpdateCommand({
         TableName: AWS_DYNAMO_CONTAINER_TABLE,
         Key: {

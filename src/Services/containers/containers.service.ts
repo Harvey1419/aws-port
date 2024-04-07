@@ -5,7 +5,7 @@ import { addStatusToContainer, createContainer, deleteContainer, getContainerByD
 export const createContainerService = async (req: express.Request, res: express.Response) => {
     try {
         const numero_do = req.params.numero_do
-        if(numero_do != undefined) await createContainer(numero_do,req.body)
+        if (numero_do != undefined) await createContainer(numero_do, req.body)
         res.json({ "Mensaje": "Se Creo un Contenedor de manera exitosa" })
     } catch (error) {
         res.json(error)
@@ -34,7 +34,7 @@ export const newContainerStatusService = async (req: express.Request, res: expre
 
 export const updateContainerService = async (req: express.Request, res: express.Response) => {
     try {
-        await updateContainer(req.params.numero_do, req.params.numero_contenedor,req.body)
+        await updateContainer(req.params.numero_do, req.params.numero_contenedor, req.body)
         res.json({ "Mensaje": "Se Actualizó un Contenedor de manera exitosa" })
     } catch (error) {
         res.json(error)

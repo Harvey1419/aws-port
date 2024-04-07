@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand, PutObjectCommandOutput, DeleteObjectCommand, DeleteObjectCommandOutput , GetObjectCommand} from '@aws-sdk/client-s3'
+import { S3Client, PutObjectCommand, PutObjectCommandOutput, DeleteObjectCommand, DeleteObjectCommandOutput, GetObjectCommand } from '@aws-sdk/client-s3'
 // import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { AWS_S3_BUCKET_REGION, AWS_PUBLIC_KEY, AWS_PRIVATE_KEY, AWS_S3_BUCKET_NAME } from '../../config/config'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
@@ -28,7 +28,7 @@ export const getSignedURL = async (filename: string): Promise<string> => {
     Bucket: AWS_S3_BUCKET_NAME,
     Key: filename
   })
-  return await getSignedUrl(s3,fileParams)
+  return await getSignedUrl(s3, fileParams)
 }
 
 export const deleteFile = async (filename: string): Promise<DeleteObjectCommandOutput> => {

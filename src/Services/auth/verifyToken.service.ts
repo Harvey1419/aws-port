@@ -16,7 +16,6 @@ export const verifyToken = async (req: express.Request, res: express.Response, n
         const verify = jwt.verify(token, TOKEN_SECRET)
         if(verify){
             next()
-            console.log('A');
         }
     } catch (error) {
         res.status(500).json({

@@ -62,15 +62,17 @@ export const changeDocumentNameBasedOnUploadedDocument = async (numero_do: strin
     return await dynamodb.send(command)
 }
 
-export const updateExportation = async(numero_do: string, toUpdate: Exportation): Promise<UpdateCommandOutput> => {
+export const updateExportation = async (numero_do: string, toUpdate: Exportation): Promise<UpdateCommandOutput> => {
     const params = new UpdateCommand({
         TableName: AWS_DYNAMO_GENERAL_PROCESS_TABLE,
         Key: {
             "numero_do": numero_do
         },
         UpdateExpression: "SET empresa = :empresa, reserva = :reserva",
-        ExpressionAttributeValues: {":empresa": toUpdate.empresa, 
-        ":reserva": toUpdate.reserva}
+        ExpressionAttributeValues: {
+            ":empresa": toUpdate.empresa,
+            ":reserva": toUpdate.reserva
+        }
     })
     return await dynamodb.send(params)
-    }
+}
