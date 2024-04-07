@@ -19,11 +19,11 @@ export const uploadFileBasedOnDocumentNameService = async (req: express.Request,
     }
 }
 
-export const dowloadFile = async(req: express.Request, res: express.Response) => {
+export const dowloadFile = async (req: express.Request, res: express.Response) => {
     try {
         const fileName = req.params.filename
         const url = await getSignedURL(fileName)
-        res.json({"URL": url})
+        res.json({ "URL": url })
     } catch (error) {
         res.json(error)
     }
